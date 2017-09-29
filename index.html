@@ -1,0 +1,93 @@
+# Create a Simple Form in PHP
+
+Before we can start building with PHP we should load the dependencies.
+
+Dependencies in PHP are loaded with a special tool called composer[https://getcomposer.org/],
+with composer you list the required libraries in a .json file after which they are loaded
+and can be used.
+
+### Load PHP dependencies with composer ###
+
+Create a composer.json file and place the following contents inside:
+    {
+        "require": {
+            "symfony/http-foundation": "3.3.9"
+        }
+    }
+
+The above package is used for abstracting HTTP Request and Response which can be somewhat complicated in plain PHP.
+
+To start things off we should include the following lines:
+
+    use Symfony\Component\HttpFoundation\Request;
+
+    $request = Request::createFromGlobals();
+
+This provides us with needed abstractions to get the HTTP request values we need.
+Instead of using global methods we can use the `$request` variable.
+You can view more details on the HTTP Foundation page [https://symfony.com/doc/current/components/http_foundation.html]
+
+### Create a simple HTML page ###
+
+Enter the following contents in index.php
+
+    <html>
+
+    <head>
+    <title>PHP page</title>
+    </head>
+    <body>
+
+    <p>
+    This is a simple paragraph text.
+    </p>
+
+    <p>
+        <form method="post" url="/post.php">
+
+        <input type="text" name="firstName">
+
+        <input type="text" name="secondName">
+
+        </form>
+    </p>
+
+    </body>
+
+    </html>
+
+This page will be used as a starting page on which we will place a simple form for submission.
+
+And enter the following contents in post.php
+
+    <html>
+
+    <head>
+    <title>PHP Post page
+    </head>
+    <body>
+
+    <?php
+
+        use Symfony\Component\HttpFoundation\Request;
+
+        $request = Request::createFromGlobals();
+
+        $first_name = $request->get('firstName');
+
+        $second_name = $request->get('secondName');
+
+        echo "<h1>The first name is: " . $first_name . "\n" .
+             "The second name is: " . $second_name . "<\h1>;
+
+    ?php>
+
+    </body>
+    </html>
+
+This is somewhat an unusual way of placing Symfony components inline but it will serve as a good example for those of you starting
+ with composer coming from a plain PHP background.
+
+The first page, index.php will display a simple page with a form that has input for first name and last name.
+The second page, post.php will be used for getting the values posted from index.php and displaying them.
+
